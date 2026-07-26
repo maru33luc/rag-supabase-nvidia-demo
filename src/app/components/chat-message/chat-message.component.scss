@@ -172,6 +172,51 @@
   li {
     margin-bottom: 4px;
   }
+
+  .table-wrapper {
+    overflow-x: auto;
+    margin: 12px 0;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .md-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    text-align: left;
+
+    th, td {
+      padding: 8px 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    th {
+      background: rgba(30, 41, 59, 0.8);
+      color: #76b900;
+      font-weight: 600;
+    }
+
+    tr:nth-child(even) {
+      background: rgba(255, 255, 255, 0.02);
+    }
+  }
+
+  .md-h2, .md-h3, .md-h4 {
+    color: #f1f5f9;
+    margin: 14px 0 6px 0;
+    font-weight: 600;
+  }
+
+  .md-h4 { font-size: 15px; }
+  .md-h3 { font-size: 16px; }
+  .md-h2 { font-size: 18px; }
+
+  .md-hr {
+    border: none;
+    border-top: 1px dashed rgba(255, 255, 255, 0.15);
+    margin: 16px 0;
+  }
 }
 
 /* Sources / Vector Matches Drawer */

@@ -1,4 +1,4 @@
-﻿// Supabase Edge Function (Deno/TypeScript) — ask
+// Supabase Edge Function (Deno/TypeScript) — ask
 // Endpoint: POST /ask
 // Expected JSON body: { question: string, top_k?: number }
 
@@ -139,7 +139,7 @@ export default {
         .filter(Boolean)
         .join("\n\n");
 
-      const prompt = `Responde la pregunta del usuario usando únicamente el contexto proporcionado. Si no puedes responder con esa información, dilo claramente.
+      const prompt = `Responde la pregunta del usuario utilizando únicamente la información del contexto proporcionado. Entrega una respuesta clara, estructurada y directa sin repetir bloques de texto ni incluir borradores.
 
 Contexto:
 ${context}
@@ -159,7 +159,7 @@ Respuesta:`;
         body: JSON.stringify({
           model: NVIDIA_LLM_MODEL,
           messages: [{ role: "user", content: prompt }],
-          temperature: 1,
+          temperature: 0.2,
           top_p: 0.95,
           max_tokens: 8192,
           stream: false,
