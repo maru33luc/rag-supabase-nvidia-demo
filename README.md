@@ -11,37 +11,40 @@ A production-ready **Retrieval-Augmented Generation (RAG)** application leveragi
 
 ## 📐 Architecture & System Flow
 
-```mermaid
-sequenceDiagram
-    autonumber
-    actor User as User / Frontend (Angular 19)
-    participant EdgeIngest as Supabase Edge: /ingest
-    participant EdgeAsk as Supabase Edge: /ask
-    participant NVIDIA as NVIDIA API Endpoint
-    participant DB as Supabase PGVector DB
-
-    rect rgb(240, 248, 255)
-    note right of User: Document Ingestion Pipeline
-    User->>EdgeIngest: POST /ingest { text, owner }
-    EdgeIngest->>NVIDIA: POST /v1/embeddings (nemotron-3-embed-1b, 2048d)
-    NVIDIA-->>EdgeIngest: Return 2048-dim Embedding Vector Array
-    EdgeIngest->>DB: INSERT into documents (content, embedding, owner)
-    DB-->>EdgeIngest: Confirm Storage
-    EdgeIngest-->>User: { inserted: count }
-    end
-
-    rect rgb(255, 248, 240)
-    note right of User: RAG Q&A Pipeline
-    User->>EdgeAsk: POST /ask { question, top_k }
-    EdgeAsk->>NVIDIA: POST /v1/embeddings (Query Vector)
-    NVIDIA-->>EdgeAsk: Return 2048-dim Query Vector
-    EdgeAsk->>DB: RPC match_documents(query_embedding, limit_count)
-    DB-->>EdgeAsk: Top K Closest Document Chunks (Cosine Similarity)
-    EdgeAsk->>NVIDIA: POST /v1/chat/completions (System Context + Question)
-    NVIDIA-->>EdgeAsk: Grounded LLM Response
-    EdgeAsk-->>User: { answer, matches }
-    end
+```text
+ ┌──────────────────────┐         ┌────────────────────────┐         ┌─────────────────────────┐
+ │   Angular 19 SPA     │ ──────> │  Supabase Edge Runtime │ ──────> │    NVIDIA NIM API       │
+ │   (Client UI)        │ <────── │  (/ingest & /ask)      │ <────── │  (Nemotron-3 / Laguna)  │
+ └──────────────────────┘         └───────────┬────────────┘         └─────────────────────────┘
+                                              │
+                                              ▼
+                                  ┌────────────────────────┐
+                                  │   Supabase PostgreSQL  │
+                                  │   (pgvector 2048-dim)  │
+                                  └────────────────────────┘
 ```
+
+### 📥 1. Document Ingestion Pipeline (`/ingest`)
+
+```text
+[Raw Text Input] ──> [Word-Boundary Chunking (~2k chars)] ──> [NVIDIA Embeddings API] ──> [2048-dim Vector] ──> [PostgreSQL pgvector Table]
+```
+
+- **Chunking**: Input text is split into ~2,000-character windows respecting word boundaries.
+- **Embedding**: Requests 2,048-dimensional dense vectors from NVIDIA Nemotron (`nvidia/nemotron-3-embed-1b`).
+- **Persistence**: Embeddings and raw text chunks are persisted into the `documents` table via Supabase client.
+
+---
+
+### 🔍 2. RAG Retrieval & Q&A Pipeline (`/ask`)
+
+```text
+[User Question] ──> [NVIDIA Query Embedding] ──> [RPC match_documents (Cosine Similarity)] ──> [Top Context Chunks] ──> [NVIDIA LLM Generation] ──> [Grounded Answer]
+```
+
+- **Query Embedding**: User prompt is vectorized via NVIDIA Embeddings API into a 2,048-dimensional vector.
+- **Similarity Search**: Calls PostgreSQL RPC `match_documents()` to retrieve top $k$ relevant context chunks.
+- **Grounded Prompting**: Constructs a strict context payload to query NVIDIA LLM (`poolside/laguna-xs-2.1`) for factual generation without hallucinations.
 
 ---
 
