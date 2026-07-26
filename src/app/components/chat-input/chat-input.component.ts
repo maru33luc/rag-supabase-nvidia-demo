@@ -10,13 +10,14 @@ export interface ChatInputSubmitEvent {
 
 @Component({
   selector: 'app-chat-input',
+  standalone: true,
   imports: [FormsModule],
   templateUrl: './chat-input.component.html',
   styleUrl: './chat-input.component.scss',
 })
 export class ChatInputComponent {
   @Input() isBusy = false;
-  @Output() submit = new EventEmitter<ChatInputSubmitEvent>();
+  @Output() submitMessage = new EventEmitter<ChatInputSubmitEvent>();
 
   mode: ChatInputMode = 'ask';
   draft = '';
@@ -28,7 +29,7 @@ export class ChatInputComponent {
       return;
     }
 
-    this.submit.emit({ type: this.mode, text });
+    this.submitMessage.emit({ type: this.mode, text });
     this.draft = '';
   }
 

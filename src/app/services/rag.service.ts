@@ -2,13 +2,17 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 
+export interface DocumentMatch {
+  id?: string;
+  content?: string;
+  distance?: number;
+  similarity?: number;
+}
+
 export interface AskResponse {
   answer: string;
-  matches?: Array<{
-    id?: string;
-    content?: string;
-    distance?: number;
-  }>;
+  matches?: DocumentMatch[];
+  error?: string;
 }
 
 export interface IngestResponse {
@@ -38,4 +42,3 @@ export class RagService {
     });
   }
 }
-

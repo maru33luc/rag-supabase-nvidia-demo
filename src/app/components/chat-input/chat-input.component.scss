@@ -1,99 +1,121 @@
 .chat-input-area {
-  padding: 16px 16px 20px;
-  background: linear-gradient(to top, var(--main-bg) 70%, transparent);
+  max-width: 900px;
+  margin: 0 auto;
 }
 
 .mode-switcher {
-  max-width: 768px;
-  margin: 0 auto 10px;
   display: inline-flex;
-  gap: 8px;
+  gap: 6px;
   padding: 4px;
-  background: var(--surface-elevated);
-  border: 1px solid var(--border);
+  background: rgba(30, 41, 59, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 999px;
+  margin-bottom: 10px;
 }
 
 .mode-btn {
-  border: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   border-radius: 999px;
-  padding: 8px 12px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--text-secondary);
+  padding: 6px 14px;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: #94a3b8;
   background: transparent;
-  cursor: pointer;
-}
+  transition: all 0.2s ease;
 
-.mode-btn.active {
-  background: var(--accent);
-  color: white;
+  &:hover {
+    color: #f1f5f9;
+  }
+
+  &.active {
+    background: #76b900;
+    color: #0f172a;
+    font-weight: 600;
+    box-shadow: 0 0 12px rgba(118, 185, 0, 0.3);
+  }
 }
 
 .input-wrapper {
-  max-width: 768px;
-  margin: 0 auto;
   display: flex;
   align-items: flex-end;
-  gap: 8px;
-  padding: 10px 12px 10px 10px;
-  background: var(--input-bg);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow);
-  transition: border-color 0.15s ease;
+  gap: 12px;
+  padding: 12px 16px;
+  background: rgba(30, 41, 59, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  transition: all 0.2s ease;
 
   &:focus-within {
-    border-color: var(--surface-elevated);
-  }
-}
-
-.send-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  flex-shrink: 0;
-  background: var(--accent);
-  color: white;
-  transition: background 0.15s ease, color 0.15s ease;
-  border: none;
-  cursor: pointer;
-
-  &:hover {
-    background: var(--accent-hover);
+    border-color: #76b900;
+    box-shadow: 0 0 16px rgba(118, 185, 0, 0.15);
+    background: rgba(30, 41, 59, 0.8);
   }
 
-  &:disabled {
-    cursor: not-allowed;
-    opacity: 0.6;
+  &.ingest-mode:focus-within {
+    border-color: #3ecf8e;
+    box-shadow: 0 0 16px rgba(62, 207, 142, 0.15);
   }
 }
 
 .message-input {
   flex: 1;
-  min-height: 72px;
-  max-height: 200px;
-  padding: 6px 4px;
+  min-height: 52px;
+  max-height: 180px;
+  padding: 4px 0;
   border: none;
   outline: none;
   resize: none;
   background: transparent;
-  color: var(--text-primary);
+  color: #f8fafc;
   line-height: 1.5;
-  font-size: 0.9375rem;
+  font-size: 14.5px;
 
   &::placeholder {
-    color: var(--text-muted);
+    color: #64748b;
+  }
+}
+
+.send-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  flex-shrink: 0;
+  background: #76b900;
+  color: #0f172a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+
+  &:hover:not(:disabled) {
+    background: #8cd600;
+    transform: scale(1.05);
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
   }
 }
 
 .disclaimer {
-  max-width: 768px;
-  margin: 10px auto 0;
+  margin: 10px 0 0 0;
   text-align: center;
-  font-size: 0.75rem;
-  color: var(--text-muted);
+  font-size: 12px;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.disclaimer-badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 1px 6px;
+  border-radius: 4px;
+  background: rgba(148, 163, 184, 0.12);
+  color: #94a3b8;
 }
