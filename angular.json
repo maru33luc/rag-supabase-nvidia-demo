@@ -6,7 +6,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "insforge-rag": {
+    "rag-supabase-nvidia-demo": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -42,7 +42,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/insforge-rag",
+            "outputPath": "dist/rag-supabase-nvidia-demo",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -89,10 +89,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "insforge-rag:build:production"
+              "buildTarget": "rag-supabase-nvidia-demo:build:production"
             },
             "development": {
-              "buildTarget": "insforge-rag:build:development"
+              "buildTarget": "rag-supabase-nvidia-demo:build:development"
             }
           },
           "defaultConfiguration": "development"

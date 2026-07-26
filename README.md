@@ -1,4 +1,4 @@
-# InsforgeRag
+# rag-supabase-nvidia-demo
 
 A complete Retrieval-Augmented Generation (RAG) demo built with Angular, Supabase, pgvector, and NVIDIA models for embeddings and answer generation.
 
