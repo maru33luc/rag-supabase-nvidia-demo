@@ -6,7 +6,7 @@ A complete Retrieval-Augmented Generation (RAG) demo built with Angular, Supabas
 
 This project demonstrates how to:
 
-- ingest text documents into a vector database,
+- ingest text documents into a vector database from the frontend UI,
 - generate embeddings with NVIDIA's embedding model,
 - store them in Supabase using pgvector,
 - retrieve relevant chunks via semantic search,

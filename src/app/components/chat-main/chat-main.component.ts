@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { ChatMessageComponent, ChatMessageData } from '../chat-message/chat-message.component';
-import { ChatInputComponent } from '../chat-input/chat-input.component';
+import { ChatInputComponent, ChatInputSubmitEvent } from '../chat-input/chat-input.component';
+import { RagService } from '../../services/rag.service';
 
 @Component({
   selector: 'app-chat-main',
@@ -32,7 +33,55 @@ export class ChatMainComponent {
     },
   ];
 
+  isProcessing = false;
+
+  constructor(private readonly ragService: RagService) {}
+
   onToggleSidebar(): void {
     this.toggleSidebar.emit();
+  }
+
+  onInputSubmit(event: ChatInputSubmitEvent): void {
+    if (!event.text.trim()) {
+      return;
+    }
+
+    this.messages = [...this.messages, { role: 'user', content: event.text.trim() }];
+    this.isProcessing = true;
+
+    if (event.type === 'ask') {
+      this.ragService.ask(event.text.trim()).subscribe({
+        next: (response) => {
+          this.messages = [...this.messages, { role: 'assistant', content: response.answer }];
+          this.isProcessing = false;
+        },
+        error: () => {
+          this.messages = [
+            ...this.messages,
+            { role: 'assistant', content: 'No pude completar la consulta en este momento.' },
+          ];
+          this.isProcessing = false;
+        },
+      });
+      return;
+    }
+
+    this.ragService.ingest(event.text.trim(), null).subscribe({
+      next: (response) => {
+        const inserted = response.inserted ?? 0;
+        this.messages = [
+          ...this.messages,
+          { role: 'assistant', content: `Documento indexado correctamente (${inserted} chunk${inserted === 1 ? '' : 's'}).` },
+        ];
+        this.isProcessing = false;
+      },
+      error: () => {
+        this.messages = [
+          ...this.messages,
+          { role: 'assistant', content: 'No pude procesar la ingesta del documento.' },
+        ];
+        this.isProcessing = false;
+      },
+    });
   }
 }

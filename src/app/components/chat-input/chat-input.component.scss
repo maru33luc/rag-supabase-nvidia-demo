@@ -3,6 +3,33 @@
   background: linear-gradient(to top, var(--main-bg) 70%, transparent);
 }
 
+.mode-switcher {
+  max-width: 768px;
+  margin: 0 auto 10px;
+  display: inline-flex;
+  gap: 8px;
+  padding: 4px;
+  background: var(--surface-elevated);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+}
+
+.mode-btn {
+  border: none;
+  border-radius: 999px;
+  padding: 8px 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  background: transparent;
+  cursor: pointer;
+}
+
+.mode-btn.active {
+  background: var(--accent);
+  color: white;
+}
+
 .input-wrapper {
   max-width: 768px;
   margin: 0 auto;
@@ -21,7 +48,6 @@
   }
 }
 
-.attach-btn,
 .send-btn {
   display: inline-flex;
   align-items: center;
@@ -30,27 +56,25 @@
   height: 36px;
   border-radius: 50%;
   flex-shrink: 0;
-  color: var(--text-secondary);
-  transition: background 0.15s ease, color 0.15s ease;
-}
-
-.attach-btn:hover {
-  background: var(--surface-elevated);
-  color: var(--text-primary);
-}
-
-.send-btn {
   background: var(--accent);
   color: white;
+  transition: background 0.15s ease, color 0.15s ease;
+  border: none;
+  cursor: pointer;
 
   &:hover {
     background: var(--accent-hover);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
   }
 }
 
 .message-input {
   flex: 1;
-  min-height: 24px;
+  min-height: 72px;
   max-height: 200px;
   padding: 6px 4px;
   border: none;

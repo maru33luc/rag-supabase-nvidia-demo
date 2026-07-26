@@ -72,6 +72,17 @@
   gap: 24px;
 }
 
+.processing-indicator {
+  max-width: 768px;
+  margin: 0 auto 8px;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  background: rgba(76, 175, 80, 0.14);
+  color: var(--text-primary);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
 @media (max-width: 768px) {
   .mobile-menu {
     display: inline-flex;

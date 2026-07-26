@@ -1,24 +1,25 @@
 <div class="chat-input-area">
-  <div class="input-wrapper">
-    <button class="attach-btn" type="button" aria-label="Adjuntar archivo">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <path
-          d="M12 5v14M5 12h14"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-        />
-      </svg>
+  <div class="mode-switcher" role="tablist" aria-label="Modo">
+    <button class="mode-btn" type="button" [class.active]="mode === 'ask'" (click)="mode = 'ask'">
+      Preguntar
     </button>
+    <button class="mode-btn" type="button" [class.active]="mode === 'ingest'" (click)="mode = 'ingest'">
+      Ingestar documento
+    </button>
+  </div>
 
+  <div class="input-wrapper">
     <textarea
       class="message-input"
-      rows="1"
-      placeholder="Envía un mensaje..."
+      rows="3"
+      [(ngModel)]="draft"
+      (keydown)="onKeydown($event)"
+      [placeholder]="mode === 'ask' ? 'Haz una pregunta sobre tus documentos...' : 'Pega el texto del documento que quieres indexar...'
+      "
       aria-label="Mensaje"
     ></textarea>
 
-    <button class="send-btn" type="button" aria-label="Enviar mensaje">
+    <button class="send-btn" type="button" aria-label="Enviar mensaje" [disabled]="isBusy || !draft.trim()" (click)="onSubmit()">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
         <path
           d="M12 19V5M5 12l7-7 7 7"
@@ -32,6 +33,6 @@
   </div>
 
   <p class="disclaimer">
-    InsForge Chat puede cometer errores. Considera verificar la información importante.
+    {{ mode === 'ask' ? 'El sistema recupera contexto relevante y responde con base en tus documentos.' : 'El texto se envía a la función de ingesta para crear embeddings y almacenarlos en Supabase.' }}
   </p>
 </div>

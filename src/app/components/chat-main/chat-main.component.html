@@ -12,7 +12,7 @@
     </button>
 
     <button class="model-selector" type="button">
-      <span>InsForge GPT</span>
+      <span>InsForge RAG</span>
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
         <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
       </svg>
@@ -41,5 +41,9 @@
     </div>
   </div>
 
-  <app-chat-input />
+  @if (isProcessing) {
+    <div class="processing-indicator">Procesando...</div>
+  }
+
+  <app-chat-input [isBusy]="isProcessing" (submit)="onInputSubmit($event)" />
 </div>
